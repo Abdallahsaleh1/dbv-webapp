@@ -6,7 +6,7 @@
     
     <div class="nav-second">
         <i class="fas fa-user"></i>
-        <p>{{userName}}</p>
+        <!-- <p>{{userName}}</p> -->
     </div>
     
 </nav>
@@ -15,19 +15,13 @@
 <div class="container">
     <div class="first-row">
         <div class="restore-btn">
-            <div class="Backup">
-                <p id="backup-txt">Backup</p>
-            </div>
-            <div class="restore">
-                <p id="restore-txt">Restore</p>
-            </div>
+            Table Name
         </div>
         <div class="add-table" data-toggle="modal" data-target="#exampleModalCenter" >
             <i class="fas fa-plus" style="margin-top:9px; margin-left:-5px;"></i>
-            <p id="table-txt">New Table</p>
+            <p id="table-txt">Add Data</p>
         </div>
-      
-        
+    
     </div>
     <div class="second-row">
         <table class="table table-striped">
@@ -142,21 +136,16 @@
   <div class="modal-dialog modal-dialog-centered modal-div" id="modal-div" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLongTitle">Create New Table</h3>
+        <h3 class="modal-title" id="exampleModalLongTitle">Import Data</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div>
-          <div class="form-group">
-            <label for="table-name" id="table-name-txt">Table Name</label>
-            <input type="text" class="form-control" id="table-name" aria-describedby="emailHelp" placeholder="Enter Table Name">
-          </div>
-          
           <div class="mb-3">
             <label for="formTextFileSm" class="form-label">Upload CSV or Text File</label>
-            <input class="form-control form-control-sm" id="formTextFileSm" type="file" (click)="changeFlagValue(1)">
+            <input class="form-control form-control-sm" id="formTextFileSm" type="file" (click)="changeFlagValue(1)" >
           </div>
 
           <div class="mb-3 json-file">
@@ -167,7 +156,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="submitModal()">Save changes</button>
+        <button type="button" class="btn btn-primary" >Save changes</button>
       </div>
     </div>
   </div>

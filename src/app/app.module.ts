@@ -10,12 +10,16 @@ import { createTableComponent } from './home-page/createTable/create-table.compo
 import { dbvApi } from './api/dbv.api';
 import { dbvState } from './services/dbv.state';
 import { SelectorService } from './services/dbv.Facade';
+import { importDataComponent } from './home-page/import-data/import-data.component';
+import { dbConnectionComponent } from './DB-connection/db-connection.component';
 @NgModule({
   declarations: [
     AppComponent,
     loginComponent,
     HomePageComponent,
-    createTableComponent
+    createTableComponent,
+    importDataComponent,
+    dbConnectionComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,40 @@
+<div class="background">
+<nav class="nav">
+  <div class="nav-first">
+      <i class="fas fa-database" style="font-size:50px; margin-left: 50px; color: white;"></i>
+      <div class="nav-txt"> DataBase Visualizer</div>
+  </div>
+  
+  <div class="nav-second">
+      <i class="fas fa-user"></i>
+      <p>{{userName}}</p>
+  </div>
+  
+</nav>
+
+<div class="container">
+    <h2> Connect to Database</h2>
+    <form>
+        <div class="form-group">
+          <label for="database-name">Database</label>
+          <input type="text" class="form-control" id="database-name" aria-describedby="emailHelp" placeholder="Enter Database Name">
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter your Username">
+        </div>
+        <div class="form-group">
+            <label for="host">Host</label>
+            <input type="text" class="form-control" id="host" placeholder="Enter your Hostname">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your Password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
+      </form>
+
+</div>
+
+</div>

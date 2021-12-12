@@ -3,7 +3,7 @@ import { SelectorService } from 'src/app/services/dbv.Facade';
 @Component({
   selector: 'create-table',
   templateUrl: './create-table.component.html',
-  styleUrls: ['./create-table.component.css']
+  styleUrls: ['./create-table.component.scss']
 })
 export class createTableComponent implements OnInit {
   fileData :any;
@@ -14,7 +14,7 @@ export class createTableComponent implements OnInit {
   ngOnInit(): void {
     
   }
-  submit() {
+  submitText() {
     this.tableName = (<HTMLInputElement>document.getElementById("tableName")).value
     let file = (<HTMLInputElement>document.getElementById("myFile")).files![0];
     const reader = new FileReader()
@@ -26,6 +26,20 @@ export class createTableComponent implements OnInit {
     reader.onerror = error => reject(error)
     reader.readAsText(file) // you could also read images and other binaries
     
+   }
+
+   submitJson(){
+    let file = (<HTMLInputElement>document.getElementById("myFile")).files![0];
+    const reader = new FileReader()
+    reader.onload = event =>{
+        this.fileData = event.target!.result
+        
+        this.fileData = JSON.parse(this.fileData)
+        this.splitJsonColumnNames()
+        //this.selector.createTable(this.tableName,this.tableSchema);
+    } // desired file content
+    reader.onerror = error => reject(error)
+    reader.readAsText(file) // you could also read images and other binaries
    }
 
    splitColumnNames(){
@@ -51,6 +65,17 @@ export class createTableComponent implements OnInit {
         
         // this.tableSchema[columnNames[i]]=dataTypes[i];
     }
+   }
+
+   splitJsonColumnNames(){
+    let columnNames =Object.keys(this.fileData)
+    let dataTypes:any=[];
+    columnNames.forEach(element => {
+      dataTypes.push(this.fileData[element]);
+      
+    });
+    console.log(dataTypes)
+    this.buildTableSchema(columnNames,dataTypes);
    }
 
    

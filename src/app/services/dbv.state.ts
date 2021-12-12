@@ -12,6 +12,8 @@ export class dbvState {
   ]);
   private showHomePage = new BehaviorSubject<boolean>(false);
   private role = new BehaviorSubject<string>(""); 
+  private userName = new BehaviorSubject<string>("");
+
 
   getUserInfo():Observable<any>{
     return this.userInfo.asObservable();
@@ -28,6 +30,12 @@ export class dbvState {
   }
   getRole():Observable<string>{
     return this.role.asObservable();
+  }
+  getUserName():Observable<string>{
+    return this.userName.asObservable();
+  }
+  setUserName(name:string){
+    this.userName.next(name);
   }
 
 }

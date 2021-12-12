@@ -28,6 +28,13 @@ export class SelectorService {
   createTable(tableName:string , tableSchema:string) :Observable<string>{
     return this._dbvApi.createTable(tableName,tableSchema);
   }
+  getUserName():Observable<string>{
+    return this.state.getUserName();
+  }
+  setUserName(name:string){
+    this.state.setUserName(name);
+  }
+
 
   
 

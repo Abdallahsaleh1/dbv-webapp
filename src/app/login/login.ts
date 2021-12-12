@@ -30,6 +30,7 @@ export class loginComponent implements OnInit {
     for(let i = 0;i<this.usersInfo.length;i++){
       console.log(this.usersInfo[i].username,this.usersInfo[i].password)
       if(this.userName == this.usersInfo[i].username && this.password == this.usersInfo[i].password){
+        this.selector.setUserName(this.userName);
         this.selector.setHomePageVisibility(true)
         if(this.usersInfo.role == "admin"){
           this.selector.setRole("admin")
