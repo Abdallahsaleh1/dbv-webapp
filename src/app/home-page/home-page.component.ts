@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectorService } from '../services/dbv.Facade';
+import { Router,ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -12,16 +14,25 @@ export class HomePageComponent implements OnInit {
   tableSchema:string="";
   tableName:string="";
   fileType: number = 0;
+  tablesInfo:any;
 
-  constructor(private selector : SelectorService) { }
+
+  constructor(private selector : SelectorService,private _router: Router,private _activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.selector.getRole().subscribe(ele=>{
-      this.role = ele;
-    })
+    // this.selector.getRole().subscribe(ele=>{
+    //   this.role = ele;
+    // })
     this.selector.getUserName().subscribe(ele=>{
       this.userName = ele;
     })
+
+    this.selector.getTablesNames().subscribe(ele =>{
+      this.tablesInfo = ele.data;
+      
+    });
+    
+    console.log(localStorage.getItem("role"),"role")
 
     
   }
@@ -38,12 +49,13 @@ export class HomePageComponent implements OnInit {
 
   submitText() {
     this.tableName = (<HTMLInputElement>document.getElementById("table-name")).value
-    let file = (<HTMLInputElement>document.getElementById("formTextFileSm")).files![0];
+    let file =null;
+    file = (<HTMLInputElement>document.getElementById("formTextFileSm")).files![0];
     const reader = new FileReader()
     reader.onload = event =>{
         this.fileData = event.target!.result
         this.splitColumnNames();
-        this.selector.createTable(this.tableName,this.tableSchema);
+        this.selector.createTable(this.tableName,this.tableSchema).subscribe();
     } // desired file content
     reader.onerror = error => reject(error)
     reader.readAsText(file) // you could also read images and other binaries
@@ -59,7 +71,9 @@ export class HomePageComponent implements OnInit {
         
         this.fileData = JSON.parse(this.fileData)
         this.splitJsonColumnNames()
-        this.selector.createTable(this.tableName,this.tableSchema);
+        this.selector.createTable(this.tableName,this.tableSchema).subscribe();
+        this.tableSchema="";
+        this.tableName="";
     } // desired file content
     reader.onerror = error => reject(error)
     reader.readAsText(file) // you could also read images and other binaries
@@ -78,12 +92,16 @@ export class HomePageComponent implements OnInit {
    }
    
    buildTableSchema(columnNames:any,dataTypes:any){
+     this.tableSchema="";
     for(let i=0;i<columnNames.length;i++){
         console.log(columnNames[i].toString())
         this.tableSchema+=columnNames[i].toString()
         this.tableSchema+=" "
         this.tableSchema+=dataTypes[i].toString()
-        this.tableSchema+=", "
+        if(i != columnNames.length -1){
+          this.tableSchema+=", "
+        }
+        
         console.log(this.tableSchema)
         
         // this.tableSchema[columnNames[i]]=dataTypes[i];
@@ -103,6 +121,35 @@ export class HomePageComponent implements OnInit {
 
    changeFlagValue(value: number){
     this.fileType = value;
+   }
+
+   deleteTable(tableName:string){
+     this.selector.deleteTable(tableName).subscribe();
+    //  this.selector.getTablesNames().subscribe(ele =>{
+    //   this.tablesInfo = ele.data;
+      
+    // });
+   }
+
+   signOut(){
+     this.selector.setHomePageVisibility(false);
+     this.selector.setRole("");
+     this.selector.setUserName("");
+     this._router.navigate(['/','login']);
+   }
+   goBack(){
+    this._router.navigate(['/','connection']);
+   }
+
+   backUp(){
+     this.selector.getDatabaseName().subscribe(ele =>{
+      this.selector.getBackUpData(ele.data).subscribe();
+     })
+     
+   }
+
+   restore(){
+     this.selector.restore().subscribe();
    }
 }
 

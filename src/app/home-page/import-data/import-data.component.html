@@ -5,8 +5,9 @@
     </div>
     
     <div class="nav-second">
-        <i class="fas fa-user"></i>
-        <!-- <p>{{userName}}</p> -->
+      <div (click)="signOut()" style="font-size: 30px; cursor: pointer;">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
     </div>
     
 </nav>
@@ -14,118 +15,67 @@
 
 <div class="container">
     <div class="first-row">
-        <div class="restore-btn">
-            Table Name
+      <div style="display: flex; flex-direction: row;">
+        <div class="back" (click)="goBack()">
+          <i class="fas fa-long-arrow-alt-left"></i>
         </div>
-        <div class="add-table" data-toggle="modal" data-target="#exampleModalCenter" >
+        <div class="restore-btn">
+          Table Name: {{routerTableName}}
+       </div>
+      </div>
+       
+        <div class="firstRow-last">
+          <div class="dropdown">
+            <button class="dropbtn">Dropdown</button>
+            <div class="dropdown-content">
+            <a (click)="exportSchema()">Export Schema</a>
+            <a  (click)="exportData()">Export Data</a>
+            <a  (click)="exportSchemaAndData()">Export Schema And Data</a>
+            </div>
+          </div>
+
+          <div class="add-table" data-toggle="modal" data-target="#exampleModalCenter" >
             <i class="fas fa-plus" style="margin-top:9px; margin-left:-5px;"></i>
             <p id="table-txt">Add Data</p>
         </div>
+        </div>
+        
     
     </div>
     <div class="second-row">
-        <table class="table table-striped">
-            <thead>
-              <tr id="head">
+        <table  class="table table-striped" style="font-size: 14px;">
+            <thead >
+              <tr id="head" >
                 <th scope="col">#</th>
-                <th scope="col">Table Name</th>
-                <th scope="col">Rows</th>
-                <th scope="col">Action</th>
+                <th scope="col" *ngFor="let name of columnsNames; index as i">{{name}}</th>
+                <th>Action</th>
+               
+                
+                
+                
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+              <tr *ngFor=" let rows of tableData; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td *ngFor="let page of counter(columnsNames); let i = index">{{rows[columnsNames[i]]}}</td>
+                <td>
+                  <button  (click)="deleteRow(rows.id)" class="action-btn">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                
+                  <button data-toggle="modal" data-target="#editModal" class="action-btn">
+                    <i class="fas fa-edit"></i>
+                  </button>
+
+                </td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              
             </tbody>
           </table>
+          <!-- <div *ngIf="tableData.length == 0" class="no-data">
+            Sorry NO data Please import Data
+          </div> -->
     </div>
 
 
@@ -149,14 +99,67 @@
           </div>
 
           <div class="mb-3 json-file">
-            <label for="formJsonFileSm" class="form-label">Upload Json File</label>
+            <label for="formJsonFileSm" class="form-label">
+              Upload Json File
+              <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title='
+                {
+        "data":[
+        {
+         "title":"example"
+          "completed":1
+        }
+    ]
+}' style="background-color: white;">
+                <i class="fas fa-exclamation-circle"></i>
+              </button>
+            </label>
             <input class="form-control form-control-sm" id="formJsonFileSm" type="file" (click)="changeFlagValue(2)">
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" >Save changes</button>
+        <button type="button" class="btn btn-primary"  (click)="submitModal()" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-div" id="modal-div" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Edit Row</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="form-group">
+            <label for="table-name" id="table-name-txt">Row ID</label>
+            <input type="text" class="form-control" id="rowId" aria-describedby="emailHelp" placeholder="Enter Table Name">
+          </div>
+          <div class="mb-3">
+            <label for="formTextFileSm" class="form-label">Upload CSV or Text File</label>
+            <input class="form-control form-control-sm" id="editTextFile" type="file" (click)="changeFlagRow(1)" >
+          </div>
+
+          <div class="mb-3 json-file">
+            <label for="formJsonFileSm" class="form-label">
+              Upload Json File 
+              
+            </label>
+            
+            <input class="form-control form-control-sm" id="editJsonFile" type="file" (click)="changeFlagRow(2)">
+          </div>
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  (click)="submitEditModal()" data-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>

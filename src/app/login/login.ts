@@ -34,12 +34,15 @@ export class loginComponent implements OnInit {
         this.selector.setHomePageVisibility(true)
         if(this.usersInfo.role == "admin"){
           this.selector.setRole("admin")
+          localStorage.setItem("role", "admin");
         } else if(this.usersInfo.role == "staff"){
           this.selector.setRole("staff")
+          localStorage.setItem("role", "staff");
         } else if(this.usersInfo.role == "reader"){
           this.selector.setRole("reader")
+          localStorage.setItem("role", "reader");
         }
-        this._router.navigate(['/','homepage'])
+        this._router.navigate(['/','connection'])
       }
     }
   }

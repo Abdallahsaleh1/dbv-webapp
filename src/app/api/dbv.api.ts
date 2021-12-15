@@ -6,11 +6,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class dbvApi {
-  private readonly API = ``;
+  private readonly API = `http://localhost:5000`;
   constructor(private http: HttpClient) { }
 
 
   createTable(tableName: string, tableSchema: string): Observable<string> {
+    console.log(tableSchema)
     return this.http
       .post<any>(`${this.API}/createNewTable/${tableName}/${tableSchema}`, {});
   }
@@ -20,7 +21,7 @@ export class dbvApi {
       .post<any>(`${this.API}/importData/${tableName}`, data);
   }
 
-  createDBConnection(data: any): Observable<string> {
+  createDBConnection(data: any): Observable<any> {
     return this.http
       .post<any>(`${this.API}/createDBConnection`, data);
   }
@@ -30,7 +31,7 @@ export class dbvApi {
       .get<any>(`${this.API}/checkTable/${tableName}`);
   }
 
-  getAllRecords(tableName: string): Observable<string> {
+  getAllRecords(tableName: string): Observable<any> {
     return this.http
       .get<any>(`${this.API}/getAllRecords/${tableName}`);
   }
@@ -53,6 +54,39 @@ export class dbvApi {
   editRow(tableName: string, rowId: number, data: any): Observable<string> {
     return this.http
       .put<any>(`${this.API}/editRow/${tableName}/${rowId}`, data);
+  }
+
+  getTablesNames(){
+    return this.http
+      .get<any>(`${this.API}/tablesNames`);
+  }
+  getTableSchema(tableName:string):Observable<any>{
+    return this.http
+      .get<any>(`${this.API}/tableColumnsNames/${tableName}`);
+  }
+
+  getBackUpData(dbName:string):Observable<any>{
+    return this.http
+      .get<any>(`${this.API}/versionControl/${dbName}`);
+  }
+
+  exportSchema(tableName:string){
+    return this.http
+      .get<any>(`${this.API}/exportSchema/${tableName}`);
+  }
+  
+  exportDataAndSchema(tableName:string):Observable<any>{
+    return this.http
+      .get<any>(`${this.API}/exportSchemaAndData/${tableName}`);
+  }
+  restore():Observable<any>{
+    return this.http
+      .post<any>(`${this.API}/restoreData`,{});
+  }
+
+  getDatabaseName():Observable<any>{
+    return this.http
+      .get<any>(`${this.API}/databaseName`);
   }
 
 }

@@ -45,7 +45,7 @@ export class SelectorService {
     return this._dbvApi.importData(tableName,data);
   }
 
-  createDBConnection(data: any): Observable<string> {
+  createDBConnection(data: any): Observable<any> {
     return this._dbvApi.createDBConnection(data);
   }
 
@@ -53,7 +53,7 @@ export class SelectorService {
     return this._dbvApi.checkIfTableExist(tableName);
   }
 
-  getAllRecords(tableName: string): Observable<string> {
+  getAllRecords(tableName: string): Observable<any> {
     return this._dbvApi.getAllRecords(tableName);
   }
 
@@ -71,6 +71,31 @@ export class SelectorService {
 
   editRow(tableName: string, rowId: number, data: any): Observable<string> {
     return this._dbvApi.editRow(tableName, rowId, data);
+  }
+  getTablesNames(){
+    return this._dbvApi.getTablesNames();
+  }
+
+  getTableSchema(tableName:string):Observable<any>{
+    console.log(tableName);
+    return this._dbvApi.getTableSchema(tableName);
+  }
+  getBackUpData(dbName:string):Observable<any>{
+    return this._dbvApi.getBackUpData(dbName);
+  }
+
+  exportSchema(tableName:string){
+    return this._dbvApi.exportSchema(tableName);
+  }
+  
+  exportDataAndSchema(tableName:string):Observable<any>{
+    return this._dbvApi.exportDataAndSchema(tableName);
+  }
+  restore():Observable<any>{
+    return this._dbvApi.restore();
+  }
+  getDatabaseName():Observable<any>{
+    return this._dbvApi.getDatabaseName();
   }
 
 }

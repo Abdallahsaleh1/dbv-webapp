@@ -6,8 +6,9 @@
   </div>
   
   <div class="nav-second">
-      <i class="fas fa-user"></i>
-      <p>{{userName}}</p>
+    <div (click)="signOut()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
   </div>
   
 </nav>
@@ -38,3 +39,4 @@
 </div>
 
 </div>
+<router-outlet></router-outlet>

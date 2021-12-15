@@ -7,7 +7,10 @@ import { dbConnectionComponent } from './DB-connection/db-connection.component';
 
 const routes: Routes = [
     { path: '', component: loginComponent },
-    { path: 'homepage', component: dbConnectionComponent },
+    { path: 'login', component: loginComponent },
+    { path: 'connection', component: dbConnectionComponent },
+    { path: 'homepage', component: HomePageComponent },
+    { path: 'tabledata/:tablename', component: importDataComponent },
 //   { path: 'response/:id', component: WidgetResponsesComponent },
 ];
 
